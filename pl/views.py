@@ -15,6 +15,8 @@ def category(request, category):
     products = fetch_products(category)
     return render(request, 'category.html',{'products':products})
 
+   
+
 def products(request, sku):
     product,images = fetch_product_detail(sku)
     if product:
