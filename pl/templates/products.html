@@ -283,7 +283,9 @@
 
     <div class="container-fluid">
         <h1>{{ product.name }}</h1>
-        <p>{{ product.descriptions }}</p>
+        {% if product.short_description %}
+        <p>Short description:{{ product.short_description }}</p>
+        {%endif%}
         <p> <b>Normal Price : </b>{{ product.normal_price }}</p>
         <p> <b>Discount Price : </b>{{ product.discount_price }}</p>
         <p> <b>Product SKU :</b>{{ product.sku }}</p>
@@ -332,13 +334,16 @@
         <p><strong>Dimension:</strong>{{ product.dimension }}</p>
         {%endif%}
         {% if product.height %}
-        <p><strong>Height:</strong> {{ product.height }}</p>
+        <p><strong>HEIGHT (CM):</strong> {{ product.height }}</p>
         {%endif%}
         {% if product.width %}
-        <p><strong>Width:</strong> {{ product.width }}</p>
+        <p><strong>WIDTH (CM):</strong> {{ product.width }}</p>
         {%endif%}
         {% if product.length %}
-        <p><strong>Length:</strong> {{ product.length }}</p>
+        <p><strong>LENGTH (CM):</strong> {{ product.length }}</p>
+        {%endif%}
+        {% if product.approximate_weight %}
+        <p><strong>WEIGHT (KG):</strong> {{ product.approximate_weight }}</p>
         {%endif%}
         {% if product.LastScrappeddate %}
         <p><strong>Last Scraped Date:</strong> {{ product.LastScrappeddate }}</p>
@@ -354,6 +359,10 @@
         {%endif%}
     </div>
 </div>   
+<div class="description">
+    <h2><strong>Description:</strong></h2>
+    <p>{{ product.descriptions |safe }}</p>
+</div>
 <script>
     var mainImage = document.getElementById('mainImage');
     var previewImages = document.querySelectorAll('.preview');

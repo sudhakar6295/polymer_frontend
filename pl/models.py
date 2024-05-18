@@ -18,6 +18,7 @@ class Products(models.Model):
     length = models.CharField(max_length=50)
     approximate_weight = models.CharField(max_length=50)
     descriptions = models.TextField()
+    short_description = models.TextField()
     LastScrappeddate = models.DateTimeField(auto_now=True)
     Updateddate = models.DateTimeField(auto_now=True)
     Createddate = models.DateTimeField(auto_now_add=True)
