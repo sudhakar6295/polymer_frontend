@@ -31,7 +31,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost','170.239.84.29','127.0.0.1','ds.prodigiodata.com']
+
 
 
 # Application definition
