@@ -106,7 +106,7 @@ DATABASES = {
         'USER': os.getenv('DATABASE_USER'),  # Replace 'fold' with your database username
         'PASSWORD': os.getenv('DATABASE_PASSWORD'), 
         'HOST': os.getenv('DATABASE_HOST'), #'170.239.84.29',  # Replace '170.239.84.29' with your database host
-        #'PORT':  os.getenv('DATABASE_PORT'),  # Replace '22222' with your database port
+        'PORT':  os.getenv('DATABASE_PORT'),  # Replace '22222' with your database port
     }
 }
 
