@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from pl.dataextraction.dataextraction import fetch_categories,fetch_products,fetch_product_detail
+from pl.dataextraction.dataextraction import fetch_categories,fetch_products,fetch_product_detail,search_product
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 
@@ -9,9 +9,14 @@ def index(request):
     return render(request, 'index.html',{'categorys':categorys})
 
 def search(request):
-    #TODO: Implement search functionality
+    if request.method == 'GET' and 'query' in request.GET:
+        query = request.GET['query']
+        product, images = search_product(query)
+        if product :
+            return render(request, 'products.html', {'product': product, 'images': images})
+    
     categorys = fetch_categories()
-    return render(request, 'index.html',{'categorys':categorys})
+    return render(request, 'index.html', {'categorys': categorys})
 
 def category(request, category):
     products = fetch_products(category)
