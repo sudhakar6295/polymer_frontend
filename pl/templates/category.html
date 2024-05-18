@@ -212,6 +212,9 @@
     </li>
     </ul>
     <div class="row">
+    <div>
+       <p> Page {{ page.number }} of {{ page.paginator.num_pages }} (Showing {{ start_index }} - {{ end_index }} of {{ total_products }} results) </p>
+    </div>
       {% for product in products %}
       <div class="col-md-auto">
         

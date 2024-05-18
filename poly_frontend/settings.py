@@ -13,6 +13,14 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 
+from pathlib import Path
+from dotenv import load_dotenv
+import os
+
+# Load the .env file
+env_path = Path('.') / '.env'
+load_dotenv(dotenv_path=env_path)
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -21,10 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-*5(c*irck$$j5cw0ff^lmp(%^10y#t!rl#gbys)^%)$y1ryywk'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -72,22 +77,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'poly_frontend.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',  # Change this to 'django.db.backends.postgresql', 'django.db.backends.sqlite3', or 'django.db.backends.oracle' depending on your database
-        'NAME': 'polymer',  # Replace 'fold' with your database name
-        'USER': 'root',  # Replace 'fold' with your database username
-        'PASSWORD': 'sudhakar',  # Replace 'XLqV6yPnwklZvNVL' with your database password
-        'HOST': 'localhost', #'170.239.84.29',  # Replace '170.239.84.29' with your database host
-        #'PORT': '22222',  # Replace '22222' with your database port
-    }
-}
-
-
-
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -105,6 +94,21 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+SECRET_KEY = os.getenv('SECRET_KEY')
+DEBUG = os.getenv('DEBUG') == 'True'
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',  # Change this to 'django.db.backends.postgresql', 'django.db.backends.sqlite3', or 'django.db.backends.oracle' depending on your database
+        'NAME': os.getenv('DATABASE_NAME'),  # Replace 'fold' with your database name
+        'USER': os.getenv('DATABASE_USER'),  # Replace 'fold' with your database username
+        'PASSWORD': os.getenv('DATABASE_PASSWORD'), 
+        'HOST': os.getenv('DATABASE_HOST'), #'170.239.84.29',  # Replace '170.239.84.29' with your database host
+        #'PORT':  os.getenv('DATABASE_PORT'),  # Replace '22222' with your database port
+    }
+}
 
 
 # Internationalization
@@ -135,3 +139,4 @@ STATICFILES_DIRS = [
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
