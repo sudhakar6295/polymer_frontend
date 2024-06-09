@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from pl.dataextraction.dataextraction import fetch_categories,fetch_products,fetch_product_detail,search_product
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-
+from json import dumps 
 
 # Create your views here.
 def index(request):
@@ -13,10 +13,17 @@ def search(request):
         query = request.GET['query']
         product, images = search_product(query)
         if product :
-            return render(request, 'products.html', {'product': product, 'images': images})
+            stock = renderstock(product.get('stock'))
+            return render(request, 'products.html', {'product': product, 'images': images,'stock':stock})
     
     categorys = fetch_categories()
     return render(request, 'index.html', {'categorys': categorys})
+
+def renderstock(stockDictionary={}):
+ 
+    # dump data 
+    dataJSON = dumps(stockDictionary) 
+    return dataJSON
 
 def category(request, category):
     products = fetch_products(category)
@@ -40,8 +47,10 @@ def category(request, category):
 
 def products(request, sku):
     product,images = fetch_product_detail(sku)
+
     if product:
-        return render(request, 'products.html',{'product':product,'images':images})
+        stock = renderstock(product.get('stock'))
+        return render(request, 'products.html',{'product':product,'images':images,'stock':stock})
     else:
         categorys = fetch_categories()
         return render(request, 'index.html',{'categorys':categorys})

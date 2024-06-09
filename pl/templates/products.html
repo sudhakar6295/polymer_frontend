@@ -286,8 +286,12 @@
         {% if product.short_description %}
         <p>Short description:{{ product.short_description }}</p>
         {%endif%}
+        {% if product.normal_price %}
         <p> <b>Normal Price : </b>{{ product.normal_price }}</p>
+        {%endif%}
+        {% if product.discount_price %}
         <p> <b>Discount Price : </b>{{ product.discount_price }}</p>
+        {%endif%}
         <p> <b>Product SKU :</b>{{ product.sku }}</p>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
@@ -317,10 +321,18 @@
         <!-- Add more thumbnail images as needed -->
     </div> 
     <div class="content-container">
+     
         <strong><h2>Product Information</h2></strong>  
-        {% if product.stock %} 
-        <p><strong>Stock:</strong> {{ product.stock }}</p>
-        {%endif%}
+        <div>
+            <p><strong><label for="stockDropdown">Stock Location:</label></strong></p>
+            <p><strong><select id="stockDropdown"></select></strong></p>
+        </div>
+        <div>
+            <p><strong>Quantity: <span id="quantityDisplay"></span></strong></p>
+        </div>
+
+
+
         {% if product.categories %}
         <p><strong>Categories:</strong>{{ product.categories }}</p>
         {%endif%}
@@ -363,6 +375,8 @@
     <h2><strong>Description:</strong></h2>
     <p>{{ product.descriptions |safe }}</p>
 </div>
+
+
 <script>
     var mainImage = document.getElementById('mainImage');
     var previewImages = document.querySelectorAll('.preview');
@@ -396,6 +410,65 @@
         var newIndex = (currentIndex + 1) % previewImages.length;
         displayImage(previewImages[newIndex].getAttribute('data-image'));
     }
+</script>
+
+<script>
+    function decodeHtml(html) {
+        var txt = document.createElement("textarea");
+        txt.innerHTML = html;
+        return txt.value;
+    }
+    // Function to initialize the dropdown with dynamic data
+    function initializeDropdown(stockData) {
+        const dropdown = document.getElementById('stockDropdown');
+        const quantityDisplay = document.getElementById('quantityDisplay');
+
+        // Clear any existing options
+        dropdown.innerHTML = '';
+        
+        for (const location in stockData) {
+            console.log("Location:", location); // Log the location (key) to the console
+            console.log("Data:", stockData[location]);
+            const option = document.createElement('option');
+            option.value = location;
+            option.text = location;
+            dropdown.appendChild(option);
+        }
+
+        // Set the default selected option based on priority
+        const defaultLocation = Object.keys(stockData).find(location => stockData[location].prioirty === '1');
+        if (defaultLocation) {
+            dropdown.value = defaultLocation;
+            updateQuantity(defaultLocation);
+        }
+
+        // Event listener to update quantity when dropdown changes
+        dropdown.addEventListener('change', function() {
+            const selectedLocation = dropdown.value;
+            updateQuantity(selectedLocation);
+        });
+
+        // Function to update quantity display
+        function updateQuantity(location) {
+            quantityDisplay.textContent = `${stockData[location].qty} available at ${location}`;
+           
+        }
+    }
+    const encodedStockData = '{{ stock|escapejs }}';
+    console.log("Raw stockData:", encodedStockData);
+    console.log(typeof encodedStockData)
+    // Attempt to parse the JSON data
+    let stockDataObj;
+    try {
+        stockDataObj = JSON.parse(encodedStockData);
+        console.log("Parsed stockData:", stockDataObj);
+    } catch (error) {
+        console.error("Error parsing JSON data:", error);
+    }
+
+
+    // Call the initializeDropdown function with the retrieved stock data
+    initializeDropdown(stockDataObj);
 </script>
 
    </body> 
