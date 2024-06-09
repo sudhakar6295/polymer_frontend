@@ -7,7 +7,7 @@ class Products(models.Model):
     product_title = models.CharField(max_length=255)
     normal_price = models.CharField(max_length=50)
     discount_price = models.CharField(max_length=50)
-    stock = models.CharField(max_length=50)
+    stock = models.JSONField()
     categories = models.CharField(max_length=255)
     subcategories = models.CharField(max_length=255)
     breadcrumb = models.CharField(max_length=255)
