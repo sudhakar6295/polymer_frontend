@@ -21,7 +21,7 @@ def search_product(search_variable):
         return None, None
     product = Products.objects.filter(sku=search_variable).values().first()
     if not product:
-        product = Products.objects.filter(name__icontains=search_variable).values().first()
+        product = Products.objects.filter(product_title__icontains=search_variable).values().first()
     if product:
         sku = product.get('sku')
     else:
