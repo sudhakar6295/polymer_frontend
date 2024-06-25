@@ -436,7 +436,13 @@
         }
 
         // Set the default selected option based on priority
-        const defaultLocation = Object.keys(stockData).find(location => stockData[location].prioirty === '1');
+        const locations = Object.keys(stockData);
+        let defaultLocation = locations.find(location => stockData[location].prioirty === '1');
+
+        if (!defaultLocation && locations.length > 0) {
+                defaultLocation = locations[Math.floor(Math.random() * locations.length)];
+        }
+        
         if (defaultLocation) {
             dropdown.value = defaultLocation;
             updateQuantity(defaultLocation);
