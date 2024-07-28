@@ -323,6 +323,7 @@
     <div class="content-container">
      
         <strong><h2>Product Information</h2></strong>  
+        {% if  product.stock %}
         <div>
             <p><strong><label for="stockDropdown">Stock Location:</label></strong></p>
             <p><strong><select id="stockDropdown"></select></strong></p>
@@ -330,8 +331,11 @@
         <div>
             <p><strong>Quantity: <span id="quantityDisplay"></span></strong></p>
         </div>
+        {%endif%}
 
-
+        {% if  not product.stock %}
+        <p><strong>Stock:</strong>Sin existencias</p>
+        {%endif%}
 
         {% if product.categories %}
         <p><strong>Categories:</strong>{{ product.categories }}</p>
