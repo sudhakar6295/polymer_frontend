@@ -474,7 +474,12 @@
 
 
     // Call the initializeDropdown function with the retrieved stock data
-    initializeDropdown(stockDataObj);
+    // Initialize the dropdown if stock data is available
+    if (stockDataObj && Object.keys(stockDataObj).length > 0) {
+            initializeDropdown(stockDataObj);
+    } else {
+            document.getElementById('stockInfo').innerHTML = '<p><strong>Stock:</strong> Sin existencias</p>';
+    }
 </script>
 
    </body> 
